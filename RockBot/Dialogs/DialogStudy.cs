@@ -1,4 +1,5 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,6 @@ namespace RockBot.Dialogs {
 
     public class DialogStudy : IDialog<object>
     {
-        protected int num1 { get; set; }
-
-        protected int num2 { get; set; }
-
 
         public async Task StartAsync(IDialogContext context)
         {
@@ -33,12 +30,9 @@ namespace RockBot.Dialogs {
 
         private async Task MsgRespNome(IDialogContext context, IAwaitable<object> argument)
         {
-            var msg = await argument;
+            var msg = await argument as Activity;
 
-            //transformar await em string
-
-            var olar = "Olar (colocar nome aqui)! \n Eu sou Mr. Fofis! :)";
-            await context.PostAsync(olar);
+            await context.PostAsync($"Olar {msg.Text}! \n Eu sou Mr. Fofis! :)");
 
         }
 
