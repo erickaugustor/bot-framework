@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using RockBot.Serialization;
+using RockBot.Services;
 
 namespace RockBot
 {
@@ -14,7 +16,7 @@ namespace RockBot
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
-        
+
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)
@@ -59,5 +61,6 @@ namespace RockBot
 
             return null;
         }
+
     }
 }

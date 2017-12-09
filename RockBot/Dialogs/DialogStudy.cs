@@ -33,7 +33,7 @@ namespace RockBot.Dialogs {
             var msg = await argument as Activity;
 
             await context.PostAsync($"Olar {msg.Text}! \n Eu sou Mr. Fofis! :)");
-
+            await context.PostAsync($"Como você está?");
         }
 
 
