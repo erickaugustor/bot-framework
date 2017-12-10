@@ -22,13 +22,59 @@ namespace RockBot
             {
                 // Antigo: await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
                 // Antigo-novo: await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
+                // await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
 
-                await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
-            }
+                bool bSetStock = false;
+                StockLUIS stLuis = await LUISStockClient.ParseUserInput(activity.Text);
+                string strRet = string.Empty;
+                string strStock = activity.Text;
+
+                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+
+                // Get the stateClient to get/set Bot Data
+                StateClient _stateClient = activity.GetStateClient();
+                BotData _botData = _stateClient.BotState.GetUserData(activity.ChannelId, activity.Conversation.Id);
+
+                switch (stLuis.intents[0].intent)
+                {
+                    case "RepeatLastStock":
+                        strStock = _botData.GetProperty<string>("LastStock");
+
+                        if (null == strStock)
+                        {
+                            strRet = "I don't have a previous stock to look up!";
+                        }
+                        else
+                        {
+                            strRet = await YahooStock.Yahoo.GetStock(strStock);
+                        }
+                        break;
+                    case "StockPrice":
+                        bSetStock = true;
+                        strRet = await YahooStock.Yahoo.GetStock(stLuis.entities[0].entity);
+                        break;
+                    case "None":
+                        strRet = "Sorry, I don't understand, perhaps try something like \"Show me Microsoft stock\"";
+                        break;
+                    default:
+                        break;
+                }
+
+                if (bSetStock)
+                {
+                    _botData.SetProperty<string>("LastStock", stLuis.entities[0].entity);
+                    _stateClient.BotState.SetUserData(activity.ChannelId, activity.Conversation.Id, _botData);
+                }
+                // return our reply to the user
+                Activity reply = activity.CreateReply(strRet);
+                await connector.Conversations.ReplyToActivityAsync(reply);
+            
+        }
             else
             {
                 HandleSystemMessage(activity);
             }
+
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
