@@ -27,9 +27,11 @@ namespace RockBot
                 StockLUIS stLuis = await LUISStockClient.ParseUserInput(activity.Text);
 
               
+                
 
-                //if (stLuis.intents[0].intent.Equals("sentimento-ruim")) { 
-                  //  {
+
+                 if(stLuis.entities[0].entity == "como-voce-esta") 
+                 {
                         //case "sentimento-bom":
                             await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
                     //  break;
@@ -41,11 +43,23 @@ namespace RockBot
                     // break;
                     //default:
                     // break;
-               /* }
+                }
+                else if(stLuis.entities[0].entity == "sentimento-ruim")
+                {
+                    await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
+                }
+                else if (stLuis.intents[0].intent == "sentimento-ruim")
+                {
+                    await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
+                }
+                else if (stLuis.intents[0].intent == "como-voce-esta")
+                {
+                    await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
+                }
                 else
                 {
                     await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
-                }*/
+                }
 
             }
             else

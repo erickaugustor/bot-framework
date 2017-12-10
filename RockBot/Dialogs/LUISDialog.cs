@@ -23,6 +23,7 @@ namespace RockBot.Dialogs
         {
 
             await context.PostAsync($"Não fique triste!");
+            await context.PostAsync($"Qual é seu nome, amiguinho?");
 
             context.Wait(MsgRespNome);
         }
