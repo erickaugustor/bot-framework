@@ -32,7 +32,6 @@ namespace RockBot
              
                 //ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-                Console.WriteLine("Oi");
                 //Console.WriteLine(stLuis.intents[0].intent);
 
                 await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());

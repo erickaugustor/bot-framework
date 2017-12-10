@@ -11,7 +11,6 @@ namespace RockBot.Services
     public class LUISStockClient
     {
 
-
         public static async Task<StockLUIS> ParseUserInput(string strInput)
         {
             string strRet = string.Empty;
