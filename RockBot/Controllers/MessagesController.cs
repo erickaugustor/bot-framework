@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -24,42 +25,30 @@ namespace RockBot
                 // Antigo-novo: await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
                 // await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
 
+                //bool bSetStock = false;
                 StockLUIS stLuis = await LUISStockClient.ParseUserInput(activity.Text);
+                string strRet = string.Empty;
+                string strStock = activity.Text;
 
-              
-                
 
+                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-                 if(stLuis.entities[0].entity == "como-voce-esta") 
-                 {
-                        //case "sentimento-bom":
-                            await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
-                    //  break;
-                    //  case "sentimento-ruim":
-                    ///  await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
-                    ////   break;
-                    // case "como-voce-esta":
-                    //  await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
-                    // break;
-                    //default:
-                    // break;
-                }
-                else if(stLuis.entities[0].entity == "sentimento-ruim")
+                switch (stLuis.intents[0].intent)
                 {
-                    await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
+                    case "sentimento-ruim":
+                        strRet = "I don't have a previous stock to look up!";
+                        break;
+                    case "como-voce-esta":
+                        strRet = "I don't have a previous stock to look up11111!";
+                        break;
+                    default:
+                        strRet = "I don't have a previous stock to look up!222222";
+                        break;
+
                 }
-                else if (stLuis.intents[0].intent == "sentimento-ruim")
-                {
-                    await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
-                }
-                else if (stLuis.intents[0].intent == "como-voce-esta")
-                {
-                    await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
-                }
-                else
-                {
-                    await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
-                }
+
+                Activity reply = activity.CreateReply(strRet);
+                await connector.Conversations.ReplyToActivityAsync(reply);
 
             }
             else
