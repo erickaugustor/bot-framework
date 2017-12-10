@@ -25,39 +25,32 @@ namespace RockBot
                 // Antigo-novo: await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
                 // await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
 
-                bool bSetStock = false;
                 StockLUIS stLuis = await LUISStockClient.ParseUserInput(activity.Text);
-                string strRet = string.Empty;
-                string strStock = activity.Text;
+                //string strRet = string.Empty;
+                //string strStock = activity.Text;
 
              
-                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+                //ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-                StateClient _stateClient = activity.GetStateClient();
-                BotData _botData = _stateClient.BotState.GetUserData(activity.ChannelId, activity.Conversation.Id);
+                Console.WriteLine("Oi");
+                //Console.WriteLine(stLuis.intents[0].intent);
 
-                switch (stLuis.intents[0].intent)
+                await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
+
+                /*switch (stLuis.intents[0].intent.ToString())
                 {
                     case "sentimento-ruim":
-                        strRet = "I don't have a previous stock to look up!";
+                        await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
                         break;
                     case "como-voce-esta":
-                        strRet = "I don't have a previous stock to look up11111!";
+                        await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
                         break;
                     default:
-                        strRet = "I don't have a previous stock to look up!222222";
+                        await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
                         break;
 
-                }
+                }*/
 
-                if (bSetStock)
-                {
-                    _botData.SetProperty<string>("LastStock", stLuis.entities[0].entity);
-                    _stateClient.BotState.SetUserData(activity.ChannelId, activity.Conversation.Id, _botData);
-                }
-
-                Activity reply = activity.CreateReply(strRet);
-                await connector.Conversations.ReplyToActivityAsync(reply);
 
             }
             else
