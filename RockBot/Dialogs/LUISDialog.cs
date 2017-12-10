@@ -22,7 +22,7 @@ namespace RockBot.Dialogs
         private async Task MsgComeco(IDialogContext context, IAwaitable<object> result)
         {
 
-            await context.PostAsync($"Ola! \n Qual o seu nome?");
+            await context.PostAsync($"Não fique triste!");
 
             context.Wait(MsgRespNome);
         }
