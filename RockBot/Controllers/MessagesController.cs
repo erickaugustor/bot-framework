@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
-using RockBot.Serialization;
 using RockBot.Services;
 
 namespace RockBot
@@ -22,8 +21,9 @@ namespace RockBot
             if (activity.Type == ActivityTypes.Message)
             {
                 // Antigo: await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+                // Antigo-novo: await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
 
-                await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
+                await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
             }
             else
             {
