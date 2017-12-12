@@ -35,24 +35,24 @@ namespace RockBot.Services
     public class StockLUIS
     {
         public string query { get; set; }
-        public lTopscoringintent[] intents { get; set; }
-        public lEntity[] entities { get; set; }
+        public Topscoringintent[] intents { get; set; }
+        public Entity[] entities { get; set; }
     }
 
     public class Rootobject
     {
         public string query { get; set; }
-        public lTopscoringintent topScoringIntent { get; set; }
-        public lEntity[] entities { get; set; }
+        public Topscoringintent topScoringIntent { get; set; }
+        public Entity[] entities { get; set; }
     }
 
-    public class lTopscoringintent
+    public class Topscoringintent
     {
         public string intent { get; set; }
         public float score { get; set; }
     }
 
-    public class lEntity
+    public class Entity
     {
         public string entity { get; set; }
         public string type { get; set; }
