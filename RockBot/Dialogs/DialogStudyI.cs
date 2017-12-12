@@ -49,7 +49,7 @@ namespace RockBot.Dialogs
                 await context.PostAsync("Informe sua data de nascimento:");
                 context.Wait(MsgRecebidaData);
             }
-            else if (msg.Text.ToLower().Equals("escolha", StringComparison.InvariantCultureIgnoreCase))
+            else if (msg.Text.ToLower().Equals("elogio", StringComparison.InvariantCultureIgnoreCase))
             {
                 Random rand = new Random();
                 var pos = rand.Next(1, 4);
@@ -63,7 +63,54 @@ namespace RockBot.Dialogs
                 context.Wait(MsgRecebidaComeco);
             }
 
-
         }
+
+
+
+        private async Task MsgRecebidaRand1(IDialogContext context, IAwaitable<IMessageActivity> argument)
+        {
+            var resp = await argument;
+
+            int num = 0;
+            //se não conveter para um número válido
+            if (!int.TryParse(resp.Text, out num))
+            {
+                await context.PostAsync("Não entedi sua resposta. Informe outro valor");
+                context.Wait(MsgRecebidaRand1);
+                return;
+            }
+
+            //seta na variavel global
+            this.num1 = num;
+
+            await context.PostAsync("Informe um número inteiro máximo: ");
+            context.Wait(MsgRecebidaRand2);
+        }
+
+        private async Task MsgRecebidaRand2(IDialogContext context, IAwaitable<IMessageActivity> argument)
+        {
+            var resp = await argument;
+
+            int num = 0;
+            //se não conveter para um número válido
+            if (!int.TryParse(resp.Text, out num))
+            {
+                await context.PostAsync("Não entedi sua resposta. Informe outro valor");
+                context.Wait(MsgRecebidaRand1);
+                return;
+            }
+
+            //seta na variavel global
+            this.num2 = num;
+
+            Random rand = new Random();
+            var info = rand.Next(num1, num2);
+
+            await context.PostAsync("O seu´número random é " + info);
+            context.Wait(MsgRecebidaComeco);
+        }
+
+
+
     }
 }
