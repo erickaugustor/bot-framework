@@ -125,7 +125,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\DialogStudyI.cs" />
     <Compile Include="Dialogs\LUISDialog.cs" />
+    <Compile Include="FormFlow\Questionario.cs" />
+    <Compile Include="Helpers\CalcularIdade.cs" />
     <Compile Include="Services\LUIS.cs" />
     <Compile Include="WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
