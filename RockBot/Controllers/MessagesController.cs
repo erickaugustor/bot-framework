@@ -25,6 +25,9 @@ namespace RockBot
                 // Antigo-novo: await Conversation.SendAsync(activity, () => new Dialogs.DialogStudy());
                 // await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
 
+                await Conversation.SendAsync(activity, () => new Dialogs.DialogStudyI());
+
+
                 //StockLUIS stLuis = await LUISStockClient.ParseUserInput(activity.Text);
                 //string strRet = string.Empty;
                 //string strStock = activity.Text;
@@ -34,7 +37,6 @@ namespace RockBot
 
                 //Console.WriteLine(stLuis.intents[0].intent);
 
-                await Conversation.SendAsync(activity, () => new Dialogs.LUISDialog());
 
                 /*switch (stLuis.intents[0].intent.ToString())
                 {

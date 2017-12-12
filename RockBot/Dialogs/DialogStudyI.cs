@@ -8,6 +8,9 @@ using System.Web;
 
 namespace RockBot.Dialogs
 {
+    [Serializable]
+    //ele envia via rede
+
     public class DialogStudyI : IDialog<object>
     {
 
@@ -106,11 +109,25 @@ namespace RockBot.Dialogs
             Random rand = new Random();
             var info = rand.Next(num1, num2);
 
-            await context.PostAsync("O seu´número random é " + info);
+            await context.PostAsync("O seu número random é " + info);
+
+            //o que ele vai esperar???
             context.Wait(MsgRecebidaComeco);
         }
 
+        private async Task MsgRecebidaData(IDialogContext context, IAwaitable<IMessageActivity> argument)
+        {
+            var resp = await argument;
 
+            DateTime dt = DateTime.Now;
+            if(!DateTime.TryParse(resp.Text, out dt))
+            {
+                await context.PostAsync("Não entendi sua resposta, diga outra coisa");
+                context.Wait(MsgRecebidaData);
+                return;
+            }
 
-    }
+            await context.PostAsync("Sua idade é: " + Helpers.CalcularIdade.Calcular(dt));
+            context.Wait(MsgRecebidaComeco);
+        }
 }
